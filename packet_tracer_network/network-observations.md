@@ -18,3 +18,16 @@ On peut identifier une passerelle par défaut manquante sur un hôte lorsque la 
 show ip interface brief
 
 Dans ce cas, le réseau connecté à cette interface ne serait pas disponible pour l’acheminement normal du trafic.
+
+## Dynamic Addressing
+Le processus DHCP utilise quatre étapes principales : Discover, Offer, Request et Acknowledgment (DORA).
+
+Tout d’abord, le client envoie un message DHCP Discover afin de rechercher un serveur DHCP. Le serveur répond avec un Offer, contenant une configuration IP disponible. Le client envoie ensuite un Request pour accepter l’adresse proposée, puis le serveur termine le processus avec un Acknowledgment (ACK) confirmant l’attribution du bail DHCP.
+
+Les adresses des passerelles sont exclues des pools DHCP car elles sont déjà attribuées aux interfaces du routeur. L’exclusion de ces adresses empêche le serveur DHCP de les attribuer à des clients, ce qui évite les conflits d’adresses IP.
+
+PC1, PC2, PC3 et PC4 utilisent DHCP, car les postes clients peuvent recevoir automatiquement leur adresse IP, leur masque de sous-réseau et leur passerelle par défaut. SRV1 reste configuré avec une adresse statique 10.0.0.2/30, car un serveur doit conserver une adresse prévisible et stable afin que les autres équipements puissent accéder de manière fiable à ses services.
+
+Lorsque le pool DEV_LAN a été temporairement modifié de 192.168.10.0/24 vers 192.168.30.0/24, PC1 n’a pas pu obtenir de bail DHCP valide. Le pool DHCP doit correspondre au réseau sur lequel se trouve le client. Après avoir rétabli DEV_LAN sur 192.168.10.0/24, PC1 a de nouveau reçu un bail valide et la connectivité a été rétablie.
+
+La running configuration est la configuration actuellement active dans la mémoire du routeur. La startup configuration est la configuration sauvegardée que le routeur charge après un redémarrage.
